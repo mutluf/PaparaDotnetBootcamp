@@ -1,0 +1,18 @@
+# .NET build directories
+bin/
+obj/
+
+# Visual Studio for Mac & VS Code files
+.vscode/
+.vs/
+
+# User-specific files
+.idea/
+
+# Build output for publish commands
+publish/
+
+# Ignore DLLs
+*.dll
+*.exe
+*.pdb
