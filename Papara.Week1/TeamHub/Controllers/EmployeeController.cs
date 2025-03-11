@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TeamHub.Controllers;
@@ -7,10 +7,24 @@ namespace TeamHub.Controllers;
 [Route("employees")]
 public class EmployeeController : ControllerBase
 {
-    [HttpGet]
-     public string Get()
+    private readonly IEmployeeService _employeeService;
+
+    public EmployeeController(IEmployeeService employeeService)
     {
-        return "hello";
+        _employeeService = employeeService;
+    }
+
+     [HttpGet]
+    public IEnumerable<Employee> GetAll()
+    {
+        var employees = _employeeService.GetAll();
+        return employees;
+    }
+
+    [HttpGet("sync-employee")]
+    public async Task SyncEmployeesAsync()
+    {
+         await _employeeService.SyncEmployeesAsync();
     }
 }
 
