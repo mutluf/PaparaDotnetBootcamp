@@ -1,6 +1,4 @@
 using System.Text.Json;
-using System.Net.Http;
-using System.Text.Json.Serialization;
 public class EmployeeService : IEmployeeService
 {
     private readonly HttpClient _httpClient;
@@ -25,42 +23,57 @@ public class EmployeeService : IEmployeeService
                 _employees = apiResponses.Select(api => new Employee
                 {
                     Id = api.Id,
-                    Name = api.Name,
-                    Username = api.Name?.Replace(" ", ""),
+                    Name = api.Name?.Split(" ")[0],
+                    Surname = api.Name?.Split(" ").Length > 1 ? api.Name?.Split(" ")[1] : string.Empty,
                     Email = api.Email,
                     Phone = api.Phone,
-                    Website = api.Website,
+                    Address = "",
                     DateOfBirth = new DateTime(1990, 5, 15),
-                    Gender = "Male",
+                    Gender = Gender.Male,
                     NationalId = 12345678911,
                     Department = "Software Development",
-                    Salary = 5000
+                    Salary = 5000,
+                    Age = 25
                 }).ToList();
             }
         }
     }
-    public List<Employee> GetAll()
+    public List<EmployeeDto> GetAll(int pageNumber, int pageSize)
     {
-        return _employees;
+        var results = _employees
+        .Skip((pageNumber - 1) * pageSize)
+        .Take(pageSize)
+        .Select(e => new EmployeeDto
+        {
+            Name = e.Name,
+            Department = e.Department,
+            Surname = e.Surname,
+            Email = e.Email,
+            Phone = e.Phone,
+            Gender = e.Gender.ToString()
+        })
+        .ToList();
+        return results;
     }
-}
-public class ApiResponse
-{
-    [JsonPropertyName("id")]
-    public int Id { get; set; }
 
-    [JsonPropertyName("name")]
-    public string? Name { get; set; }
-
-    [JsonPropertyName("userName")]
-    public string? Username { get; set; }
-
-    [JsonPropertyName("email")]
-    public string? Email { get; set; }
-
-    [JsonPropertyName("phone")]
-    public string? Phone { get; set; }
-
-    [JsonPropertyName("website")]
-    public string? Website { get; set; }
+    public void AddEmployee(EmployeeCreateDto employeeDto)
+    {
+        int newId = _employees.Count > 0 ? _employees.Max(e => e.Id) + 1 : 1;
+        Employee employee = new Employee
+        {
+            Id = newId,
+            Name = employeeDto.Name,
+            Surname = employeeDto.Surname,
+            Email = employeeDto.Email,
+            Phone = employeeDto.Phone,
+            Address = employeeDto.Address,
+            DateOfBirth = employeeDto.DateOfBirth,
+            Gender = employeeDto.Gender,
+            NationalId = employeeDto.NationalId,
+            Department = employeeDto.Department,
+            Salary = employeeDto.Salary,
+            Age = DateTime.Today.Year - employeeDto.DateOfBirth.Year
+        };
+        _employees.Add(employee);
+    }
 }

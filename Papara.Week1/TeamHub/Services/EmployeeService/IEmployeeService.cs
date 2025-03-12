@@ -1,5 +1,6 @@
 public interface IEmployeeService
 {
-    List<Employee> GetAll();
+    List<EmployeeDto> GetAll(int pageNumber, int pageSize);
     Task SyncEmployeesAsync();
+    void AddEmployee(EmployeeCreateDto employee);
 }
