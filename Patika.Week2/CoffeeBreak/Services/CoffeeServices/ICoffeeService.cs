@@ -1,3 +1,4 @@
+using CoffeeBreak.DTOs;
 using CoffeeBreak.Entities;
 using Microsoft.AspNetCore.JsonPatch;
 namespace CoffeeBreak.Services.CoffeeServices;
@@ -10,4 +11,8 @@ public interface ICoffeeService
     Task<bool> UpdateCoffeeAsync(int id, Coffee coffee);
     Task<bool> PatchCoffeeAsync(int id, JsonPatchDocument<Coffee> patchDocument);
     Task<bool> DeleteCoffeeAsync(int id);
+    
+    // for fake service
+    IEnumerable<CoffeeDto> GetAll();
+    CoffeeDto GetById(int id);
 }

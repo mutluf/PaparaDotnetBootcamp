@@ -1,3 +1,4 @@
+using CoffeeBreak.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
 using CoffeeBreak.Entities;
 
@@ -100,5 +101,15 @@ public class CoffeeService : ICoffeeService
         }
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public IEnumerable<CoffeeDto> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public CoffeeDto GetById(int id)
+    {
+        throw new NotImplementedException();
     }
 }

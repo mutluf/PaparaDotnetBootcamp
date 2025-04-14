@@ -1,3 +1,4 @@
+using CoffeeBreak.Attributes;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public class CoffeeController : ControllerBase
         _coffeeService = coffeeService;
     }
 
+    [FakeAuthorize]
     [HttpGet("list")]
     public async Task<IActionResult> GetCoffees([FromQuery] string? name, [FromQuery] string? size, [FromQuery] string? orderBy)
     {
