@@ -1,0 +1,6 @@
+@CoffeeBreak_Task3_4_HostAddress = http://localhost:5081
+
+GET {{CoffeeBreak_Task3_4_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

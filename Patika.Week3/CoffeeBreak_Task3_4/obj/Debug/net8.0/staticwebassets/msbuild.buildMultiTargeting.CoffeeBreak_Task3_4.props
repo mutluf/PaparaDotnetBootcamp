@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\CoffeeBreak_Task3_4.props" />
+</Project>
